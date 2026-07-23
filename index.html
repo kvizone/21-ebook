@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CONTINUE. — ebook (lo-fi)</title>
+  <style>
+    :root {
+      --bg: #f2f2f2;
+      --paper: #fafafa;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --line: #ccc;
+      --font: "SF Mono", ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", Menlo, Consolas, monospace;
+      --page-w: 42rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    /* nav lo-fi */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 0.55rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.65rem;
+      font-size: 12px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav a:hover { color: var(--ink); text-decoration: underline; }
+
+    .nav .mark {
+      font-weight: 700;
+      color: var(--ink);
+      margin-right: 0.35rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.65rem;
+    }
+
+    .nav-drop {
+      position: relative;
+    }
+
+    .nav-drop > summary {
+      list-style: none;
+      cursor: pointer;
+      color: var(--muted);
+      user-select: none;
+      padding: 0.2rem 0.15rem;
+    }
+
+    .nav-drop > summary::-webkit-details-marker { display: none; }
+
+    .nav-drop > summary::after {
+      content: " ▾";
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .nav-drop[open] > summary {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .nav-drop > summary:hover { color: var(--ink); }
+
+    .nav-menu {
+      position: absolute;
+      top: calc(100% + 0.35rem);
+      left: 0;
+      min-width: 16rem;
+      max-width: min(90vw, 22rem);
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 0.4rem 0;
+      display: grid;
+      z-index: 30;
+    }
+
+    .nav-menu a,
+    .nav-menu span {
+      display: block;
+      padding: 0.45rem 0.75rem;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-menu a:hover {
+      background: var(--bg);
+      text-decoration: none;
+    }
+
+    .nav-menu .soon {
+      color: var(--muted);
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .nav-menu .n {
+      color: var(--muted);
+      margin-right: 0.35rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* página do ebook */
+    .page {
+      width: min(100% - 2rem, var(--page-w));
+      margin: 1.5rem auto 3rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: clamp(2rem, 5vw, 3.25rem);
+    }
+
+    .page + .page { margin-top: 1.5rem; }
+
+    .page-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .page-foot {
+      margin-top: 2.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    /* capa */
+    .cover {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cover h1 {
+      font-size: clamp(2.4rem, 8vw, 3.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+
+    .cover .subtitle {
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+      color: var(--muted);
+      max-width: 22ch;
+      line-height: 1.45;
+      margin-bottom: 3rem;
+    }
+
+    .cover .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: auto;
+      padding-top: 3rem;
+    }
+
+    /* tipografia corpo */
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.35;
+    }
+
+    .stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .stack p { color: var(--ink); }
+
+    .stack .pause {
+      margin: 0.5rem 0;
+      color: var(--muted);
+    }
+
+    .stack .beat {
+      font-weight: 700;
+    }
+
+    .list-soft {
+      list-style: none;
+      display: grid;
+      gap: 0.45rem;
+      margin: 0.25rem 0 0.5rem;
+      color: var(--muted);
+    }
+
+    .list-soft li::before {
+      content: "— ";
+      color: var(--line);
+    }
+
+    /* sumário */
+    .toc-part {
+      margin-bottom: 2rem;
+    }
+
+    .toc-part:last-child { margin-bottom: 0; }
+
+    .toc-part h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toc-part ol {
+      list-style: none;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .toc-part li {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: 0.5rem;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .toc-part .n {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .toc-part a {
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .toc-part a:hover { text-decoration: underline; }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 1.5rem 0;
+      border: none;
+    }
+
+    /* capítulo */
+    .chap-meta {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+
+    .chap-title {
+      font-size: clamp(1.6rem, 4vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .chap-epigraph {
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+      font-size: 14px;
+    }
+
+    .verse {
+      border-left: 2px solid var(--ink);
+      padding: 0.85rem 0 0.85rem 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .verse p {
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    .verse cite {
+      display: block;
+      margin-top: 0.65rem;
+      font-style: normal;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 1.75rem 0;
+    }
+
+    .practice {
+      border: 1px solid var(--line);
+      padding: 1.25rem;
+      margin-top: 2rem;
+      background: var(--bg);
+    }
+
+    .practice h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .practice .prompt {
+      font-weight: 700;
+      margin: 0.75rem 0;
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Navegação do ebook">
+    <span class="mark">CONTINUE.</span>
+    <div class="nav-links">
+      <a href="#capa">Capa</a>
+      <a href="#prefacio">Prefácio</a>
+      <a href="#sumario">Sumário</a>
+
+      <details class="nav-drop">
+        <summary>Parte I</summary>
+        <div class="nav-menu">
+          <a href="#cap-01"><span class="n">01</span> Comece por aqui.</a>
+          <a href="#cap-02"><span class="n">02</span> Algumas corridas não acontecem na rua.</a>
+          <a href="#cap-03"><span class="n">03</span> Hoje basta hoje.</a>
+          <a href="#cap-04"><span class="n">04</span> Um peso que você não precisa carregar.</a>
+          <a href="#cap-05"><span class="n">05</span> Respira.</a>
+        </div>
+      </details>
+
+      <details class="nav-drop">
+        <summary>Parte II</summary>
+        <div class="nav-menu">
+          <a href="#cap-06"><span class="n">06</span> Só mais um passo.</a>
+          <a href="#cap-07"><span class="n">07</span> Arrume qualquer coisa.</a>
+          <a href="#cap-08"><span class="n">08</span> Aceita um gole de água?</a>
+          <a href="#cap-09"><span class="n">09</span> Volte ao começo.</a>
+          <a href="#cap-10"><span class="n">10</span> O relógio não conhece seu tempo.</a>
+        </div>
+      </details>
+
+      <details class="nav-drop">
+        <summary>Parte III</summary>
+        <div class="nav-menu">
+          <a href="#cap-11"><span class="n">11</span> Quem caminha ao seu lado.</a>
+          <a href="#cap-12"><span class="n">12</span> Silêncio confortável.</a>
+          <span class="soon"><span class="n">13</span> O suficiente para o momento.</span>
+          <span class="soon"><span class="n">14</span> Nem tudo precisa fazer sentido agora.</span>
+          <span class="soon"><span class="n">15</span> Guarde sinais de vida.</span>
+        </div>
+      </details>
+
+      <details class="nav-drop">
+        <summary>Parte IV</summary>
+        <div class="nav-menu">
+          <span class="soon"><span class="n">16</span> Nem tudo são flores.</span>
+          <span class="soon"><span class="n">17</span> Amanhã também existe.</span>
+          <span class="soon"><span class="n">18</span> Quando faltar força, diminua o passo.</span>
+          <span class="soon"><span class="n">19</span> Ainda existe um caminho.</span>
+          <span class="soon"><span class="n">20</span> A chegada não é o fim.</span>
+        </div>
+      </details>
+
+      <details class="nav-drop">
+        <summary>Final</summary>
+        <div class="nav-menu">
+          <span class="soon"><span class="n">21</span> Continue.</span>
+        </div>
+      </details>
+    </div>
+  </nav>
+
+  <!-- PÁGINA 1 — CAPA -->
+  <article class="page cover" id="capa">
+    <h1>CONTINUE.</h1>
+    <p class="subtitle">21 pequenos passos para não desistir dos seus sonhos</p>
+    <p class="meta">ebook · rascunho lo-fi · RUN!</p>
+  </article>
+
+  <!-- PÁGINA 2–3 — ABERTURA -->
+  <article class="page" id="prefacio">
+    <p class="page-label">02 — prefácio</p>
+
+    <div class="stack">
+      <p>Talvez este livro tenha chegado até você em um dia comum.</p>
+      <p>Ou justamente naquele dia em que até as coisas mais simples parecem exigir um esforço maior do que deveriam.</p>
+      <p>Seja qual for o motivo, fico feliz que ele tenha encontrado você.</p>
+
+      <p class="pause">···</p>
+
+      <p>Confesso que pensei bastante em como começar esta conversa. Afinal, ninguém gosta da sensação de estar sendo ensinado o tempo todo. Eu também não.</p>
+      <p>Então acho melhor a gente fazer diferente.</p>
+      <p>Imagine que estamos caminhando juntos por alguns minutos. Sem pressa. Sem a obrigação de encontrar todas as respostas antes da última página.</p>
+      <p>Porque, sinceramente, eu não tenho todas elas.</p>
+      <p>O que eu tenho são algumas coisas que estou aprendendo enquanto caminho. Algumas deram certo, outras deram errado... E outras só fizeram sentido muito tempo depois. Algumas ainda estou aprendendo, viu?</p>
+      <p>E cada dia sinto que tenho muito ainda para aprender.</p>
+      <p class="beat">É isso que você vai encontrar aqui.</p>
+
+      <p class="pause">···</p>
+
+      <p>Este não é um livro para terminar em uma semana.</p>
+      <p>Também não é um desafio de 30 dias, uma fórmula para mudar de vida completamente ou uma coleção de frases bonitas para postar nas redes sociais.</p>
+      <p>Pense nele como um lugar para voltar de vez em quando.</p>
+      <p>Tem dias em que uma página vai bastar.</p>
+      <p>Em outros, talvez você leia vários capítulos seguidos.</p>
+      <p>Também pode acontecer de abrir em qualquer lugar, ler duas páginas e fechar de novo, seguir a vida com aquilo na cabeça...</p>
+      <p>Este livro não foi escrito para ser seguido à risca.</p>
+      <p class="beat">Foi escrito para fazer companhia.</p>
+
+      <p class="pause">···</p>
+
+      <p>No fim de cada capítulo existe um pequeno convite.</p>
+      <p>Nada complicado.</p>
+      <p>Às vezes vai ser beber um copo de água com calma.</p>
+      <p>Escrever uma frase em um papel.</p>
+      <p>Dar uma volta no quarteirão.</p>
+      <p>Organizar uma gaveta.</p>
+      <p>Ligar para alguém.</p>
+      <p>Ou simplesmente respirar por alguns minutos.</p>
+      <p>Pode parecer pouco.</p>
+      <p>Mas a vida quase sempre muda desse jeito.</p>
+      <p>Quase nunca pelas grandes decisões.</p>
+      <p>Na maioria das vezes, ela muda por causa de pequenas escolhas feitas todos os dias.</p>
+
+      <p class="pause">···</p>
+
+      <p>Ao longo destas páginas você também vai encontrar algumas passagens da Bíblia.</p>
+      <p>Elas estão aqui porque fizeram parte da minha caminhada e continuam fazendo companhia para muita gente até hoje.</p>
+      <p>Não estão aqui para encerrar uma conversa.</p>
+      <p>Estão para abrir uma.</p>
+      <p>Talvez você concorde com tudo o que ler.</p>
+      <p>Talvez discorde de algumas coisas.</p>
+      <p>Talvez algumas páginas façam sentido só daqui a alguns meses.</p>
+      <p>E isso também faz parte do processo porque a própria vida em si não é linear.</p>
+
+      <p class="pause">···</p>
+
+      <p>A verdade é que existem corridas que ninguém vê.</p>
+      <p>Existem sonhos que crescem devagar.</p>
+      <p>Existem dias em que a maior vitória é simplesmente não desistir.</p>
+      <p>Se hoje você está vivendo um dia assim, eu só quero pedir uma coisa:</p>
+      <p>Não pense nas próximas semanas.</p>
+      <p>Nem no mês que vem.</p>
+      <p>Nem em tudo o que ainda falta resolver.</p>
+      <p class="beat">Só... fica por aqui.</p>
+      <p>Por estas páginas.</p>
+      <p>Depois disso, a gente vê qual é o próximo passo.</p>
+    </div>
+
+    <div class="page-foot">
+      <span class="page-num">2</span>
+    </div>
+  </article>
+
+  <!-- PÁGINA 4 — SUMÁRIO -->
+  <article class="page" id="sumario">
+    <p class="page-label">03 — sumário</p>
+    <h2>Sumário</h2>
+
+    <div class="toc-part">
+      <h3>Parte I — Quando tudo pesa</h3>
+      <ol>
+        <li><span class="n">01</span> <a href="#cap-01">Comece por aqui.</a></li>
+        <li><span class="n">02</span> <a href="#cap-02">Algumas corridas não acontecem na rua.</a></li>
+        <li><span class="n">03</span> <a href="#cap-03">Hoje basta hoje.</a></li>
+        <li><span class="n">04</span> <a href="#cap-04">Um peso que você não precisa carregar.</a></li>
+        <li><span class="n">05</span> <a href="#cap-05">Respira.</a></li>
+      </ol>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="toc-part">
+      <h3>Parte II — Pequenos movimentos</h3>
+      <ol>
+        <li><span class="n">06</span> <a href="#cap-06">Só mais um passo.</a></li>
+        <li><span class="n">07</span> <a href="#cap-07">Arrume qualquer coisa.</a></li>
+        <li><span class="n">08</span> <a href="#cap-08">Aceita um gole de água?</a></li>
+        <li><span class="n">09</span> <a href="#cap-09">Volte ao começo.</a></li>
+        <li><span class="n">10</span> <a href="#cap-10">O relógio não conhece seu tempo.</a></li>
+      </ol>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="toc-part">
+      <h3>Parte III — Você não caminha sozinho</h3>
+      <ol>
+        <li><span class="n">11</span> <a href="#cap-11">Quem caminha ao seu lado.</a></li>
+        <li><span class="n">12</span> <a href="#cap-12">Silêncio confortável.</a></li>
+        <li><span class="n">13</span> <span>O suficiente para o momento.</span></li>
+        <li><span class="n">14</span> <span>Nem tudo precisa fazer sentido agora.</span></li>
+        <li><span class="n">15</span> <span>Guarde sinais de vida.</span></li>
+      </ol>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="toc-part">
+      <h3>Parte IV — O que tem para depois</h3>
+      <ol>
+        <li><span class="n">16</span> <span>Nem tudo são flores.</span></li>
+        <li><span class="n">17</span> <span>Amanhã também existe.</span></li>
+        <li><span class="n">18</span> <span>Quando faltar força, diminua o passo.</span></li>
+        <li><span class="n">19</span> <span>Ainda existe um caminho.</span></li>
+        <li><span class="n">20</span> <span>A chegada não é o fim.</span></li>
+      </ol>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="toc-part">
+      <h3>Capítulo Final</h3>
+      <ol>
+        <li><span class="n">21</span> <span>Continue.</span></li>
+      </ol>
+    </div>
+
+    <div class="page-foot">
+      <span>3</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 01 -->
+  <article class="page" id="cap-01">
+    <p class="page-label">Parte I — Quando tudo pesa · Capítulo 01</p>
+    <h2 class="chap-title">Comece por aqui.</h2>
+    <p class="chap-epigraph">Nem todo passo precisa ser grande.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Venham a mim, todos os que estão cansados e sobrecarregados, e eu lhes darei descanso.”</p>
+      <cite>Mateus 11:28</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Eu não sei exatamente onde você está quando lê estas palavras.</p>
+      <p>Talvez esteja no sofá depois de um dia longo ou talvez esteja no intervalo de alguma coisa, tentando encontrar alguns minutos de silêncio no meio da correria. Talvez tenha aberto este livro porque alguém falou sobre ele ou porque, de alguma forma, você sentiu vontade de parar um pouco.</p>
+      <p>A verdade é que quase sempre procuramos alguma coisa quando sentimos que precisamos de cuidado.</p>
+      <p>Quando tudo está bem, a gente segue no automático. Mas existem momentos em que alguma coisa dentro da gente pede uma pausa. Um lugar para respirar. Uma lembrança de que não precisamos carregar tudo sozinhos.</p>
+      <p>Eu conheço esses momentos.</p>
+      <p>Já existiram dias em que eu continuei fazendo o que precisava ser feito, mas por dentro eu estava beirando a exaustão. Dias em que eu sorria, conversava e seguia a rotina, enquanto tentava organizar perguntas que ninguém conseguia ouvir.</p>
+      <p class="beat">“Será que eu estou no caminho certo?”</p>
+      <p class="beat">“Será que as coisas vão mudar?”</p>
+      <p class="beat">“Será que vale a pena continuar?”</p>
+      <p>Talvez você já tenha feito alguma dessas perguntas também.</p>
+      <p>Por muito tempo eu pensei que pessoas fortes eram aquelas que nunca tinham dúvidas e continuavam sempre com coragem e disposição.</p>
+      <p>Mas eu descobri que não é bem assim.</p>
+      <p>Muitas pessoas que continuam caminhando também sentem medo, se cansam... Têm dias em que pensam em parar.</p>
+      <p>A diferença é que, mesmo sem enxergar todo o caminho, elas escolhem dar o próximo passo.</p>
+      <p>Mesmo sem saber exatamente onde vão chegar, entendem que ficar no mesmo lugar também não responde todas as perguntas.</p>
+      <p>Eu já tentei apressar coisas que precisavam de tempo. Já quis entender todos os detalhes antes de seguir. Já quis saber como seria o final antes mesmo de começar.</p>
+      <p>Talvez você também faça isso.</p>
+      <p>A gente tenta controlar o que ainda não aconteceu porque a incerteza assusta e... queremos garantias antes de caminhar.</p>
+      <p>Mas a vida quase nunca funciona dessa maneira.</p>
+      <p>Muitas coisas só ficam claras depois que começamos.</p>
+      <p>É andando que algumas respostas aparecem.</p>
+      <p>É vivendo que algumas feridas encontram espaço para fechar e percebemos que éramos mais fortes do que imaginávamos.</p>
+      <p>E continuar nem sempre significa fazer algo enorme, sabe? Às vezes, continuar é responder aquela mensagem que você estava adiando ou... voltar a cuidar de uma coisa que você deixou de lado.</p>
+      <p>Pedir ajuda.</p>
+      <p>Sair da cama em um dia difícil.</p>
+      <p>Tentar mais uma vez, mesmo sem a mesma energia de antes.</p>
+      <p>Durante muito tempo, eu achei que um passo pequeno não fazia diferença. Mas aprendi que nenhum caminho é construído apenas por grandes momentos.</p>
+      <p>As grandes mudanças quase sempre começam em coisas que parecem pequenas demais para serem importantes.</p>
+      <p>Uma conversa.</p>
+      <p>Uma decisão.</p>
+      <p>Um simples “vou tentar mais uma vez”.</p>
+      <p>Eu gosto de lembrar que Jesus também caminhou por lugares difíceis. Ele conheceu a rejeição, a espera, a solidão e a dor. Ele não ficou distante das pessoas quando elas estavam cansadas. Pelo contrário, ele se aproximava.</p>
+      <p>Ele sentava com elas e ouvia suas histórias.</p>
+      <p>Encontrava pessoas exatamente onde elas estavam.</p>
+      <p>Talvez seja por isso que esse convite continua sendo tão forte depois de tantos anos:</p>
+    </div>
+
+    <blockquote class="verse">
+      <p>“Venham a mim, todos os que estão cansados e sobrecarregados, e eu lhes darei descanso.”</p>
+      <cite>Mateus 11:28</cite>
+    </blockquote>
+
+    <div class="stack">
+      <p>Não é um convite para pessoas que já resolveram tudo (talvez, isso nem exista de verdade).</p>
+      <p>É um convite para pessoas cansadas.</p>
+      <p>Para pessoas que precisam respirar.</p>
+      <p>Para pessoas que não querem desistir de viver de verdade.</p>
+      <p>Então, se hoje a caminhada parece pesada, não tente carregar todos os dias de uma vez.</p>
+      <p>Olhe apenas para o próximo passo.</p>
+      <p>O que está diante de você agora?</p>
+      <p>Qual é a pequena coisa que você consegue fazer hoje?</p>
+      <p>Às vezes, a gente espera sentir força para começar mas, em muitos momentos, a força aparece justamente porque começamos!</p>
+      <p>Talvez você não esteja onde imaginou estar.</p>
+      <p>Talvez o caminho tenha sido mais difícil do que você esperava.</p>
+      <p>Mas essa não é a última página da sua história.</p>
+      <p>Ainda existem coisas que você não viveu... encontros que você ainda não teve... caminhos que você não conhece.</p>
+      <p>Então continue.</p>
+      <p>Não precisa ser rápido e muito menos perfeito.</p>
+      <p class="beat">Apenas continue.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pegue um papel ou abra uma nota no celular e escreva:</p>
+      <p class="prompt">“O que eu tenho carregado sozinho?”</p>
+      <p>Não tente responder da forma mais bonita. Apenas escreva o que vier.</p>
+      <p>Depois, escolha uma pequena atitude de cuidado para fazer hoje.</p>
+      <p>Pode ser organizar um espaço, caminhar alguns minutos, mandar uma mensagem para alguém que você gosta ou separar um tempo em silêncio.</p>
+      <p class="beat" style="margin-top: 1rem;">Pequenos passos também contam.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">4</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 02 -->
+  <article class="page" id="cap-02">
+    <p class="page-label">Parte I — Quando tudo pesa · Capítulo 02</p>
+    <h2 class="chap-title">Algumas corridas não acontecem na rua.</h2>
+    <p class="chap-epigraph">Algumas das mais difíceis acontecem em silêncio.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“O Senhor firma os passos de um homem bom e se agrada do seu caminho; se cair, não ficará prostrado, pois o Senhor o sustém pela mão.”</p>
+      <cite>Salmos 37:23-24</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Quando pensamos em uma corrida, normalmente imaginamos uma linha de chegada (afinal... esse é o propósito, chegar lá).</p>
+      <p>Pessoas com tênis, uma rua longa pela frente, alguém marcando o tempo, uma multidão esperando no final.</p>
+      <p>A gente pensa em movimento e velocidade.</p>
+      <p>Mas existe um tipo de corrida que ninguém vê.</p>
+      <p>Uma corrida que não acontece nas ruas, mas dentro de nós.</p>
+      <p>Ela acontece quando você acorda e precisa encontrar força para começar mais um dia. Quando está tentando manter um sonho vivo mesmo sem saber quando ele vai acontecer. Quando está sorrindo para as pessoas enquanto, por dentro, está tentando organizar algo que ninguém conhece.</p>
+      <p>Eu já participei de algumas dessas corridas e provavelmente você também.</p>
+      <p>São aquelas em que ninguém entrega uma medalha no final. Ninguém percebe quantas vezes você precisou respirar fundo antes de continuar e nem mesmo quantas vezes você quase desistiu de algo que ainda era importante para você.</p>
+      <p>Mas Deus sabe.</p>
+      <p>Ele sempre viu as partes da nossa história que ninguém mais viu.</p>
+      <p>Existe algo curioso sobre nós: costumamos valorizar muito aquilo que pode ser mostrado.</p>
+      <p>Mas quase nunca mostramos o processo.</p>
+      <p>A parte em que tentamos, erramos, quando precisamos começar de novo...</p>
+      <p>É como olhar uma casa pronta e esquecer que alguém esteve ali colocando um tijolo de cada vez.</p>
+      <p>Com a vida acontece a mesma coisa.</p>
+      <p>Às vezes, você olha para alguém e pensa: “essa pessoa está tão bem”. Mas você não conhece as noites difíceis, as escolhas complicadas e os momentos em que ela também precisou continuar sem saber exatamente como.</p>
+      <p>A gente compara o nosso bastidor com a parte mais bonita da história dos outros.</p>
+      <p>E isso quase sempre parece injusto.</p>
+      <p>Eu aprendi que cada pessoa tem um ritmo diferente.</p>
+      <p>Algumas coisas florescem rápido, já outras... precisam de mais tempo.</p>
+      <p>E nem por isso estão paradas!</p>
+      <p>Existe uma fase em que parece que nada está acontecendo.</p>
+      <p>Você está tentando, mas não vê resultado.</p>
+      <p>Está cuidando de algo, mas ainda não consegue perceber crescimento.</p>
+      <p>Está fazendo sua parte, mas sente que o caminho está silencioso demais.</p>
+      <p>E eu entendo, de verdade!</p>
+      <p>O silêncio pode dar a impressão de que nada está acontecendo.</p>
+      <p class="beat">Mas nem tudo que cresce faz barulho.</p>
+      <p>Uma semente não parece estar fazendo nada enquanto está enterrada.</p>
+      <p>Mas existe vida acontecendo ali.</p>
+      <p>Jesus também ensinou muitas vezes sobre coisas pequenas.</p>
+      <p>Uma semente, um pouco de fermento, um copo de água.</p>
+      <p>Uma pequena atitude feita com amor.</p>
+      <p>Talvez porque Ele sabia que a maioria das grandes coisas começa de uma forma simples.</p>
+      <p>Nós é que temos dificuldade de perceber.</p>
+      <p>Queremos grandes sinais, mudanças contrastantes, respostas pra tudo!</p>
+      <p>Mas, muitas vezes, Deus trabalha nos detalhes que passam despercebidos.</p>
+      <p>Como uma conversa que chegou na hora certa, a força que apareceu quando você achou que não tinha mais, aquela porta que se abriu depois de uma longa espera.</p>
+      <p>Então, se hoje você sente que está correndo uma corrida que ninguém percebe, eu queria lembrar você de uma coisa:</p>
+      <p class="beat">o fato de ninguém estar vendo não significa que não tem valor.</p>
+      <p>Todo passo importa.</p>
+      <p>Cada vez que você escolhe continuar, existe algo sendo construído dentro de você.</p>
+      <p>Você pode não estar na velocidade que imaginou e o caminho esteja mais longo do que parecia no começo.</p>
+      <p>Mas ainda é um caminho.</p>
+      <p>E enquanto existir um próximo passo, ainda existe movimento.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pegue um papel e escreva:</p>
+      <p class="prompt">“Eu escolho continuar.”</p>
+      <p>Guarde esse papel.</p>
+      <p>Alguns lembretes existem para os dias em que a gente esquece da própria força.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">5</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 03 -->
+  <article class="page" id="cap-03">
+    <p class="page-label">Parte I — Quando tudo pesa · Capítulo 03</p>
+    <h2 class="chap-title">Hoje basta hoje.</h2>
+    <p class="chap-epigraph">Nem todo dia precisa carregar o peso do amanhã.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Portanto, não se preocupem com o amanhã, pois o amanhã trará as suas próprias preocupações. Basta a cada dia o seu próprio mal.”</p>
+      <cite>Mateus 6:34</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Eu não sei se você já percebeu, mas a nossa mente tem uma habilidade impressionante de viajar para lugares onde os nossos pés ainda não chegaram.</p>
+      <p>Às vezes estamos sentados em um dia tranquilo, mas por dentro já estamos tentando resolver problemas da próxima semana, do próximo mês ou até de anos que ainda nem chegaram.</p>
+      <p>A gente faz planos, cria cenários, imagina possibilidades e tenta se preparar para tudo.</p>
+      <p>Eu já fiz muito isso.</p>
+      <p>Já perdi momentos que estavam acontecendo porque estava me preocupando com momentos que talvez nem fossem acontecer.</p>
+      <p>É estranho pensar nisso, mas às vezes a gente está tão ocupado tentando controlar o amanhã que esquece de viver o hoje.</p>
+      <p>Será que você esteja fazendo isso agora também? Não sei...</p>
+      <p>Talvez esteja carregando preocupações sobre uma decisão que precisa tomar, uma resposta que ainda não chegou, um sonho que parece distante ou uma situação que você não sabe como vai terminar.</p>
+      <p>E eu entendo.</p>
+      <p>A incerteza incomoda.</p>
+      <p>A gente gosta de saber o próximo capítulo antes de terminar a página atual.</p>
+      <p>Queremos garantias... sinais, sei lá, qualquer coisa que confirme o que vai ter lá na frente.</p>
+      <p>Mas a vida nunca foi construída dessa forma.</p>
+      <p>Quando eu olho para a minha própria história, percebo quantas vezes eu tentei resolver coisas que ainda não estavam nas minhas mãos.</p>
+      <p>Eu tentei carregar dias que ainda nem tinham chegado.</p>
+      <p>E sabe o que aconteceu?</p>
+      <p>Eu entrei em exaustão antes da hora.</p>
+      <p>Porque existe um peso que não foi feito para ser carregado hoje.</p>
+      <p>Algumas preocupações pertencem ao futuro, só.</p>
+      <p>E o futuro ainda não chegou.</p>
+      <p>Jesus falou sobre isso de uma maneira muito simples:</p>
+      <p class="beat">“Não se preocupem com o amanhã.”</p>
+      <p>Não porque o amanhã não importa.</p>
+      <p>Mas porque ele sabia que cada dia já traz desafios suficientes.</p>
+      <p>Existe uma sabedoria muito grande em viver o dia que está diante da gente.</p>
+      <p>Entender que o sonho também é construído no pequeno momento que temos agora.</p>
+      <p>Eu gosto de dizer que o futuro é feito de pequenos presentes.</p>
+      <p>Uma conversa com alguém, o cheirinho de café passado, aquele momento exato quando sentamos no sofá e o corpo parece se permitir relaxar por uns segundos (na verdade, acho até que o corpo anseia descansar).</p>
+      <p>Acredito que isso é viver o presente.</p>
+      <p>Às vezes, a gente olha para um sonho grande e sente medo porque tenta imaginar todos os quilômetros que ainda faltam.</p>
+      <p>Mas talvez você não precise pensar em todos eles agora.</p>
+      <p>Talvez você só precise olhar para o próximo passo.</p>
+      <p>Uma coisa de cada vez.</p>
+      <p>Um dia de cada vez.</p>
+      <p>Essa é uma das coisas mais bonitas da fé: lembrar que você não precisa ter tudo resolvido para continuar caminhando.</p>
+      <p>Você pode estar aprendendo.</p>
+      <p>Pode estar reconstruindo.</p>
+      <p>Pode estar começando de novo.</p>
+      <p class="beat">Hoje basta hoje.</p>
+      <p>Não coloque nas costas deste dia os problemas de todos os outros.</p>
+      <p>Não exija de você uma resposta para tudo.</p>
+      <p>Não transforme uma fase difícil em uma sentença sobre toda a sua história.</p>
+      <p>O dia de hoje merece ser vivido (é o seu presente).</p>
+      <p>Mesmo que seja simples e meio lento... Ainda existe beleza nisso.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pegue um papel e escreva:</p>
+      <p class="prompt">“O que eu estou tentando resolver e me preocupando antes da hora?”</p>
+      <p>Observe essa lista com calma, pense o que está sob seu controle e o que não se pode resolver.</p>
+      <p>Ao lado de cada preocupação, escreva qual autocuidado você pode fazer em relação a isso.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">6</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 04 -->
+  <article class="page" id="cap-04">
+    <p class="page-label">Parte I — Quando tudo pesa · Capítulo 04</p>
+    <h2 class="chap-title">Um peso que você não precisa carregar.</h2>
+    <p class="chap-epigraph">Algumas coisas a gente segura por tanto tempo que esquece que pode soltar.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Lancem sobre ele toda a sua ansiedade, porque ele tem cuidado de vocês.”</p>
+      <cite>1 Pedro 5:7</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Você já percebeu como a gente costuma carregar coisas que ninguém pediu para a gente carregar?</p>
+      <p>Às vezes é uma expectativa... Às vezes é uma culpa antiga.</p>
+      <p>Às vezes é uma responsabilidade que assumimos porque achamos que, se não fizermos, tudo vai desmoronar.</p>
+      <p>E quando percebemos, estamos andando pela vida com uma mochila cheia de coisas que nem lembramos mais em que momento colocamos lá dentro.</p>
+      <p>Eu já fiz muito isso.</p>
+      <p>Já tentei ser forte em momentos em que eu precisava apenas admitir que precisava descansar e me cuidar.</p>
+      <p>Já tentei resolver problemas que não dependiam somente de mim.</p>
+      <p>Já me preocupei com opiniões de pessoas que talvez nem se importassem realmente comigo.</p>
+      <p>É curioso como a nossa mente consegue transformar pequenas coisas em pesos enormes.</p>
+      <p>Uma conversa que não aconteceu.</p>
+      <p>Uma escolha que não saiu como planejamos.</p>
+      <p>Um erro que cometemos há anos, mas que ainda lembramos como se fosse ontem.</p>
+      <p>A gente continua vivendo, mas leva aquela lembrança junto nos pensamentos como se fosse uma prova de que não somos bons o suficiente.</p>
+      <p>Mas será que tudo isso realmente precisa continuar com a gente?</p>
+      <p>Essa é uma pergunta difícil de se fazer, eu sei...</p>
+      <p>Porque algumas cargas se tornam tão familiares que parecem tanto fazer parte da nossa identidade e achamos que devemos sim abraçar aquele lixo e carregar.</p>
+      <p>Ah, pessoa que sempre resolve tudo, que nunca pode demonstrar cansaço, que precisa estar disponível para todo mundo.</p>
+      <p>A pessoa que acredita que, se parar, vai decepcionar alguém.</p>
+      <p>Talvez você conheça alguém assim, ou talvez esse alguém seja você.</p>
+      <p>Eu aprendi uma coisa importante: existe diferença entre responsabilidade e peso.</p>
+      <p>Responsabilidade é aquilo que está em nossas mãos para ser cuidado.</p>
+      <p>E o peso é aquilo que carregamos porque temos medo de deixar cair.</p>
+      <p>E nem tudo que está nas nossas mãos precisa permanecer ali para sempre, sabia?</p>
+      <p>Existe um momento em que precisamos parar e perguntar:</p>
+      <p class="beat">“Isso realmente é meu para carregar?”</p>
+      <p>A maioria das opiniões não definem quem você é.</p>
+      <p>Nem todo erro precisa continuar punindo você.</p>
+      <p>Muitos problemas não precisam ser resolvidos hoje.</p>
+      <p>Às vezes, o primeiro passo para continuar não é fazer mais.</p>
+      <p>É soltar algumas coisas para abrir espaço.</p>
+      <p>É perceber que existe uma diferença entre desistir e descansar.</p>
+      <p>Uma árvore não perde suas folhas porque desistiu de crescer.</p>
+      <p>Ela perde porque existe uma nova estação chegando.</p>
+      <p>Talvez você também esteja como uma plantinha em uma fase de deixar algumas coisas lá para trás.</p>
+      <p>E tudo bem, ok?</p>
+      <p>Você não precisa carregar versões antigas de você para provar que mudou.</p>
+      <p>Muito menos precisa continuar pagando uma dívida emocional por algo que já passou.</p>
+      <p>Existe graça nos recomeços.</p>
+      <p>Então, antes de seguir para o próximo passo, talvez valha a pena olhar para essa mochila invisível que você tem carregado.</p>
+      <p>Veja o que está dentro dela.</p>
+      <p>Algumas coisas ainda fazem sentido.</p>
+      <p>Outras talvez estejam apenas ocupando espaço.</p>
+      <p>E talvez hoje seja um bom dia para deixar algumas delas pelo caminho.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pegue um papel e escreva:</p>
+      <p class="prompt">“O que eu estou carregando que já posso largar?”</p>
+      <p>Não precisa ter uma resposta perfeita.</p>
+      <p>Apenas escreva.</p>
+      <p>Considere se desfazer de objetos que trazem memórias que não lhe cabem mais.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">7</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 05 -->
+  <article class="page" id="cap-05">
+    <p class="page-label">Parte I — Quando tudo pesa · Capítulo 05</p>
+    <h2 class="chap-title">Respira.</h2>
+    <p class="chap-epigraph">Antes de continuar, às vezes a gente precisa parar um pouco.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Aquietem-se e saibam que eu sou Deus.”</p>
+      <cite>Salmos 46:10</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Existe um movimento que fazemos todos os dias sem perceber:</p>
+      <p class="beat">Respirar.</p>
+      <p>É tão automático que quase nunca pensamos sobre isso. (Provavelmente, agora que eu falei, você deve estar prestando atenção diretamente na sua respiração).</p>
+      <p>Esse movimento deixa de ser automático quando algo inesperado acontece e sentimos falta de ar.</p>
+      <p>Uma notícia difícil.</p>
+      <p>Uma conversa importante.</p>
+      <p>Um momento de ansiedade.</p>
+      <p>Qualquer situação que foge do nosso controle.</p>
+      <p>De repente, o corpo lembra aquilo que a gente esqueceu: “eu preciso parar um pouco”.</p>
+      <p>Eu acho interessante como a gente trata descanso como se fosse uma recompensa.</p>
+      <p>Como se só pudéssemos descansar depois de terminar tudo.</p>
+      <p>Depois de resolver todos os problemas... cumprir todas as tarefas...</p>
+      <p>Mas a verdade é que sempre vai existir alguma coisa para fazer, isso é fato.</p>
+      <p>Sempre haverá uma mensagem esperando resposta, decisões pra tomar ou qualquer coisa aí que você precise fazer. Sempre tem.</p>
+      <p>A vida nunca fica completamente em silêncio (e quem bom, né?).</p>
+      <p>Eu já tentei viver assim, confesso...</p>
+      <p>Como se parar fosse perda tempo e um sentimento de “ficar para trás”.</p>
+      <p>Mas descobri que uma pessoa cansada também precisa de cuidado.</p>
+      <p>Você esteja vivendo uma fase em que tudo parece urgente? Principalmente agora, em época de redes sociais, conteúdos e informações engolindo nossa cabeça.</p>
+      <p>Tudo parece precisar de uma resposta rápida.</p>
+      <p>Mas será que depende mesmo?</p>
+      <p>Às vezes, estamos tentando resolver uma vida inteira em uma única tarde.</p>
+      <p>Queremos organizar o futuro, consertar o passado e ainda aproveitar o presente.</p>
+      <p>É muita coisa para uma pessoa só.</p>
+      <p>Por isso, hoje eu queria fazer um convite simples:</p>
+      <p class="beat">respira. Só isso.</p>
+      <p>Escolha ficar alguns minutos sem tentar resolver nada.</p>
+      <p>Aí mesmo onde você está.</p>
+      <p>Existe algo poderoso em voltar para o momento presente.</p>
+      <p>Sentir as coisas de verdade e pensar “caraca, meu coração está batendo mesmo”.</p>
+      <p>Perceba o ambiente.</p>
+      <p>Lembre que você está aqui.</p>
+      <p>Agora.</p>
+      <p>Eu sei que algumas situações realmente precisam de respostas.</p>
+      <p>Algumas dores precisam ser enfrentadas.</p>
+      <p>Mas talvez você não precise fazer tudo neste minuto.</p>
+      <p>Talvez o próximo passo fique mais claro depois de uma pausa.</p>
+      <p>Então respira.</p>
+      <p>O dia ainda não terminou.</p>
+      <p>A história ainda não acabou.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Durante cinco minutos, deixe o celular longe.</p>
+      <p>Sente-se em um lugar tranquilo.</p>
+      <p>Respire devagar.</p>
+      <p>Não tente pensar em nada específico.</p>
+      <p>Apenas fique presente.</p>
+      <p>Depois, escreva uma frase:</p>
+      <p class="prompt">“Hoje eu não preciso resolver tudo.”</p>
+      <p>Cole essa frase em um lugar que você possa ver sempre, tipo na geladeira.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">8</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 06 -->
+  <article class="page" id="cap-06">
+    <p class="page-label">Parte II — Pequenos movimentos · Capítulo 06</p>
+    <h2 class="chap-title">Só mais um passo.</h2>
+    <p class="chap-epigraph">Nem todo avanço precisa parecer uma grande conquista.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Aquele que começou boa obra em vocês vai completá-la até o dia de Cristo Jesus.”</p>
+      <cite>Filipenses 1:6</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Existe uma coisa curiosa sobre os caminhos.</p>
+      <p>Quando olhamos de longe, eles parecem muito maiores do que realmente são.</p>
+      <p>A gente olha para uma montanha e pensa: “eu nunca vou conseguir chegar lá”.</p>
+      <p>Olha para um projeto parado, um sonho antigo ou uma mudança que precisa acontecer e sente aquele peso de imaginar tudo o que ainda falta.</p>
+      <p>O problema é que, muitas vezes, a gente tenta viver o caminho inteiro de uma vez.</p>
+      <p>Queremos saber como será daqui a seis meses.</p>
+      <p>Queremos entender todas as etapas.</p>
+      <p>Queremos ter certeza de que vai dar certo antes mesmo de começar.</p>
+      <p>Eu já fiz isso algumas vezes.</p>
+      <p>Já olhei para coisas que eu queria construir e fiquei tão preso pensando em tudo que faltava que quase esqueci de olhar para o que eu poderia fazer naquele dia.</p>
+      <p>Agora pensa aqui comigo...</p>
+      <p>Você olha para um objetivo grande e pensa:</p>
+      <p class="beat">“Mas como eu vou conseguir fazer isso?”</p>
+      <p>A pergunta parece simples, mas ela pode assustar.</p>
+      <p>Porque, quando pensamos no caminho inteiro, tudo parece pesado demais, não é?</p>
+      <p>Mas quando pensamos só no próximo passo, a coisa muda um pouco de figura.</p>
+      <p>Eu gosto de observar como a natureza funciona.</p>
+      <p>Uma árvore enorme que hoje oferece sombra e fruta também começou de uma forma que a gente acaba esquecendo...</p>
+      <p>Uma pequena semente.</p>
+      <p>Com um pouco de cuidado.</p>
+      <p>E muito tempo.</p>
+      <p>Nada aconteceu de um dia para o outro, mas... aconteceu!</p>
+      <p>Sabe aquele momento em que você está em uma fase em que parece que nada está mudando?</p>
+      <p>Você está tentando melhorar.</p>
+      <p>Está trabalhando em algo.</p>
+      <p>Está cuidando de uma área da sua vida.</p>
+      <p>Mas olha para frente e pensa que ainda falta muito chão pela frente.</p>
+      <p>Eu sinto isso como uma sensação desesperadora.</p>
+      <p>É difícil valorizar pequenos avanços quando estamos esperando uma grande transformação porque é cultural a gente comemorar apenas quando chega lá, no objetivo, na linha de chegada.</p>
+      <p>Isso quando consegue, quando vê o resultado.</p>
+      <p>Mas e todo o caminho até lá?</p>
+      <p>E aqueles dias em que tudo deu errado e você achou forças para tirar algo bom daquilo?</p>
+      <p>E aquelas críticas pesadas que você teve que ouvir e todos os problemas com os quais teve que lidar?</p>
+      <p>Elas também fazem parte da história.</p>
+      <p>Outro dia eu pensei em como uma caminhada longa funciona.</p>
+      <p>Ninguém atravessa quilômetros pensando em cada metro que falta.</p>
+      <p>A pessoa apenas continua andando.</p>
+      <p>Um passo...</p>
+      <p>Depois outro...</p>
+      <p>E mais um...</p>
+      <p>Parece simples, mas é assim que qualquer distância é vencida.</p>
+      <p>Talvez hoje você não consiga resolver tudo.</p>
+      <p>Talvez ainda existam várias perguntas sem resposta.</p>
+      <p>Talvez algumas coisas estejam demorando mais do que você gostaria.</p>
+      <p>Mas isso não significa que você parou no lugar.</p>
+      <p>Às vezes, o movimento é tão pequeno que a gente não percebe.</p>
+      <p>Eu aprendi que continuar é não deixar que um dia difícil faça você esquecer tudo aquilo que já construiu.</p>
+      <p>Então, se hoje você sente que está longe demais do lugar onde gostaria de estar, não olhe para toda a distância.</p>
+      <p>Olhe para o próximo passo.</p>
+      <p>Qual é a pequena coisa que está nas suas mãos agora?</p>
+      <p>Faça essa coisa.</p>
+      <p>E só depois pense na próxima.</p>
+      <p>As histórias mais bonitas da vida são construídas exatamente assim:</p>
+      <p class="beat">aos poucos.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pense em algo que você vem adiando e escolha uma coisa pequena que pode fazer neste momento.</p>
+      <p>Pode ser organizar algo, começar um projeto ou dar atenção a um sonho antigo.</p>
+      <p>Apenas escreva o que vier em mente. Sem pensar em terminar.</p>
+      <p>Depois escreva:</p>
+      <p class="prompt">“Hoje eu dei mais um passo.”</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">9</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 07 -->
+  <article class="page" id="cap-07">
+    <p class="page-label">Parte II — Pequenos movimentos · Capítulo 07</p>
+    <h2 class="chap-title">Arrume qualquer coisa.</h2>
+    <p class="chap-epigraph">Às vezes, colocar uma pequena coisa no lugar ajuda a organizar outras coisas por dentro.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Tudo tem o seu tempo determinado, e há tempo para todo propósito debaixo do céu.”</p>
+      <cite>Eclesiastes 3:1</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Você já reparou como algumas pequenas coisas conseguem mudar a sensação de um dia inteiro?</p>
+      <p>Arrumar a mesa bagunçada...</p>
+      <p>Abrir uma janela e deixar a luz e o vento entrar...</p>
+      <p>Uma xícara de café em um momento relaxante que você para, observa o momento, sente o cheiro, a sensação e pensa “que gostoso isso”.</p>
+      <p>Pela maioria das pessoas esses não são considerados grandes acontecimentos.</p>
+      <p>Mas existe algo nesses pequenos cuidados que parece dizer para a gente:</p>
+      <p>a sensação de dever cumprido.</p>
+      <p>Eu sempre achei interessante como o ambiente ao nosso redor conversa com a gente.</p>
+      <p>Quando tudo está bagunçado, às vezes parece que a cabeça acompanha.</p>
+      <p>Não porque uma casa organizada resolve todos os problemas da vida.</p>
+      <p>Não resolve.</p>
+      <p>Mas alguns pequenos movimentos devolvem para a gente uma sensação de presença.</p>
+      <p>De cuidado.</p>
+      <p>De que ainda existe alguma coisa sob nosso controle.</p>
+      <p>Eu já tive momentos em que sentia que precisava mudar muitas coisas ao mesmo tempo. Era tanta coisa para organizar que eu não sabia nem por onde começar.</p>
+      <p>Então eu comecei pelo mais simples:</p>
+      <p>Arrumar a gaveta de talheres.</p>
+      <p>Depois, passei para o guarda-roupas, aí fui para a seção de plantas largadas implorando por um pingo de água na terra e preparei um bolo. Eu nunca nem tinha usado meu forno...</p>
+      <p>E, de alguma forma, aquele pequeno movimento trouxe uma sensação diferente.</p>
+      <p>Eu lembrei que ainda podia fazer alguma coisa e quando me dei conta já estava totalmente em estado de flow fazendo um curso de espanhol que eu estava adiando há tempos.</p>
+      <p>Às vezes a gente espera uma grande mudança para começar.</p>
+      <p>Espera o momento perfeito, pede por mais tempo.</p>
+      <p>Mais energia.</p>
+      <p>Mais disposição.</p>
+      <p>Mas a vida raramente entrega um cenário perfeito. Eu diria que ela nunca entrega um cenário perfeito simplesmente porque não existe.</p>
+      <p>Eu gosto de dizer que “enquanto você estiver vivendo sempre terá louça para lavar”.</p>
+      <p>Existe beleza em pequenos recomeços.</p>
+      <p>Uma planta não precisa de um jardim inteiro para começar a crescer, as minhas suculentas mesmo estão provando sua resiliência em vasinhos de 5x5cm recebendo água só quando eu lembro que elas existem.</p>
+      <p>Olhe ao seu redor, veja o que te incomoda e pensa “eu quero resolver essa coisa que me incomoda todo dia e eu estou só largando mão”. Pode ser que seja aquele canto da sua mesa cheio de coisas, aquele pé da mesa balançando, aquela roupa que você não usa porque rasgou mas também não larga mão.</p>
+      <p>Aquela gaveta que você sempre deixa para depois.</p>
+      <p>Aquela área da casa que você até evita olhar para não resolver.</p>
+      <p>Ou até mesmo um pequeno espaço dentro de você que está pedindo por atenção e carinho.</p>
+      <p>Eu sei que parece simples demais.</p>
+      <p>Mas talvez esse seja justamente o ponto.</p>
+      <p>A gente passa muito tempo esperando grandes momentos para sentir que está avançando.</p>
+      <p>Mas algumas mudanças começam de formas discretas mesmo.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Escolha um pequeno espaço da sua casa ou do seu trabalho.</p>
+      <p>Pode ser uma gaveta, uma mesa, uma prateleira ou qualquer outro lugar.</p>
+      <p>Organize apenas esse espaço.</p>
+      <p>Se quiser, pode cronometrar quanto tempo levou e comparar com o tempo que demorou para decidir simplesmente fazer.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">10</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 08 -->
+  <article class="page" id="cap-08">
+    <p class="page-label">Parte II — Pequenos movimentos · Capítulo 08</p>
+    <h2 class="chap-title">Aceita um gole de água?</h2>
+    <p class="chap-epigraph">Você não precisa merecer descansar para se cuidar.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Quem beber da água que Eu lhe der nunca mais terá sede.”</p>
+      <cite>João 4:14</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Outro dia eu percebi uma coisa engraçada.</p>
+      <p>Eu estava tão concentrado trabalhando que, quando olhei para o copo na mesa, a água ainda estava cheia.</p>
+      <p>Já fazia horas.</p>
+      <p>Eu tinha respondido mensagens, resolvido problemas, participado de reuniões... mas tinha esquecido de uma coisa bem simples: beber água.</p>
+      <p>Pode parecer bobo.</p>
+      <p>Mas isso acontece mais vezes do que a gente imagina.</p>
+      <p>A gente cuida dos prazos.</p>
+      <p>Cuida das outras pessoas.</p>
+      <p>Cuida da casa.</p>
+      <p>Cuida do trabalho.</p>
+      <p>E, no meio disso tudo, esquece de cuidar da única pessoa que esteve presente em todos os dias da nossa vida: nós mesmos.</p>
+      <p>Eu já fiz isso muitas vezes.</p>
+      <p>Achava que cuidar de mim era uma coisa que podia esperar. Primeiro eu resolvia tudo. Depois, se sobrasse tempo, eu descansava. Se sobrasse energia, eu comia direito. Se sobrasse disposição, eu fazia alguma coisa por mim.</p>
+      <p>O problema é que quase nunca sobrava.</p>
+      <p>Você conhece essa sensação?</p>
+      <p>A gente vai adiando pequenas necessidades porque elas parecem menos importantes do que todo o resto.</p>
+      <p>Só que o corpo tem um jeito curioso de conversar com a gente.</p>
+      <p>Ele avisa.</p>
+      <p>Primeiro bem baixinho.</p>
+      <p>Depois um pouco mais alto.</p>
+      <p>Até chegar uma hora em que ele simplesmente diz: “agora você vai precisar parar sim, tá?”.</p>
+      <p>Eu demorei para entender que cuidado não é prêmio.</p>
+      <p>Não é uma recompensa por ter produzido bastante.</p>
+      <p>É necessidade.</p>
+      <p>Assim como uma planta precisa de água antes de murchar (como as minhas suculentas pedindo socorro), a gente também precisa de pequenas pausas antes de chegar no limite.</p>
+      <p>Isso inclui dormir um pouco melhor.</p>
+      <p>Comer sem olhar para a tela do celular.</p>
+      <p>Levantar da cadeira por alguns minutos e se alongar.</p>
+      <p>De respirar fundo.</p>
+      <p>De perceber que você também merece o mesmo cuidado que costuma oferecer para os outros.</p>
+      <p>A gente romantiza muito o cansaço, né?</p>
+      <p>Parece bonito dizer que trabalhou até tarde, que não teve tempo para almoçar ou que passou o dia inteiro correndo, porque nos faz parecer “pessoas importantes”.</p>
+      <p>Mas, com sinceridade, isso só mostra que estamos esquecendo de nós mesmos.</p>
+      <p>E ninguém consegue caminhar por muito tempo sem cuidar do próprio corpo.</p>
+      <p>Nosso corpo é a casa dos nossos sonhos.</p>
+      <p class="beat">Vale a pena cuidar.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Antes de continuar o seu dia, faça uma pausa.</p>
+      <p>Beba um copo de água devagar.</p>
+      <p>Sem mexer no celular.</p>
+      <p>Enquanto faz isso, pense:</p>
+      <p class="prompt">“Como essa água é? Que gosto tem? Qual a sensação eu sinto quando ela desce para dentro do meu corpo?”</p>
+      <p>Depois, escolha um dia dessa semana em que está lendo esse capítulo e marque um compromisso com você para um momento de cuidado. Agendar uma consulta, fazer um exercício físico ou mesmo ir num café que gosta para saborear e relaxar.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">11</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 09 -->
+  <article class="page" id="cap-09">
+    <p class="page-label">Parte II — Pequenos movimentos · Capítulo 09</p>
+    <h2 class="chap-title">Volte ao começo.</h2>
+    <p class="chap-epigraph">Às vezes, lembrar o motivo ajuda a encontrar o caminho de novo.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Lembrem-se de onde caíram. Arrependam-se e pratiquem as obras que praticavam no princípio.”</p>
+      <cite>Apocalipse 2:5</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Existe uma pergunta que eu gosto de fazer quando sinto que alguma coisa perdeu o sentido.</p>
+      <p class="beat">“Como tudo isso começou?”</p>
+      <p>Pode parecer simples, mas quase sempre a resposta muda alguma coisa.</p>
+      <p>Porque, com o tempo, a gente vai acumulando expectativas, comparações, prazos, cobranças... e sem perceber acaba esquecendo o motivo que fez a gente dar o primeiro passo.</p>
+      <p>Eu já vivi isso.</p>
+      <p>Comecei projetos cheio de entusiasmo e, meses depois, parecia que eu estava apenas cumprindo tarefas.</p>
+      <p>O brilho tinha ficado em algum lugar do caminho.</p>
+      <p>Não porque o sonho mudou.</p>
+      <p>Mas porque o peso das obrigações começou a falar mais alto que a alegria de ter começado.</p>
+      <p>Talvez isso esteja acontecendo com você.</p>
+      <p>Talvez exista alguma coisa que um dia fez seus olhos brilharem e hoje parece apenas mais um compromisso.</p>
+      <p>Pode ser um trabalho.</p>
+      <p>Um relacionamento.</p>
+      <p>Um curso.</p>
+      <p>Um hobby.</p>
+      <p>Ou até um sonho que está guardado numa gaveta faz tempo.</p>
+      <p>Quando isso acontece, eu não acho que a primeira pergunta deva ser “como eu recupero a motivação?”</p>
+      <p>Acho que a pergunta é outra.</p>
+      <p class="beat">“O que me fez começar?”</p>
+      <p>Às vezes, a resposta está escondida em uma foto antiga.</p>
+      <p>Em um caderno.</p>
+      <p>Em uma conversa.</p>
+      <p>Em um bilhete.</p>
+      <p>Em uma lembrança que ficou esquecida.</p>
+      <p>A gente muda.</p>
+      <p>E isso é bom.</p>
+      <p>Mas algumas coisas merecem ser revisitadas de vez em quando para lembrar quem a gente era quando decidiu começar.</p>
+      <p>Tem uma diferença enorme entre voltar atrás e voltar ao começo.</p>
+      <p>Voltar atrás é desistir. E algumas coisas precisam sim ser deixadas.</p>
+      <p>Voltar ao começo é lembrar do motivo e quem você é.</p>
+      <p>E, às vezes, é exatamente isso que faltava para continuar.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Escolha uma coisa importante da sua vida que está deixada de lado.</p>
+      <p>Agora tente lembrar:</p>
+      <p class="prompt">“Por que eu comecei?”</p>
+      <p>Escreva a primeira resposta que vier.</p>
+      <p>Não pense muito.</p>
+      <p>Depois você decide o que fazer em relação a isso.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">12</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 10 -->
+  <article class="page" id="cap-10">
+    <p class="page-label">Parte II — Pequenos movimentos · Capítulo 10</p>
+    <h2 class="chap-title">O relógio não conhece seu tempo.</h2>
+    <p class="chap-epigraph">Comparação costuma fazer o caminho parecer mais longo.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Há tempo para todo propósito debaixo do céu.”</p>
+      <cite>Eclesiastes 3:1</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Outro dia eu estava esperando em um semáforo e comecei a reparar nas pessoas atravessando a rua.</p>
+      <p>Tinha gente correndo porque estava atrasada esbarrando em todo mundo.</p>
+      <p>Tinha gente andando devagar como se tivesse passeando.</p>
+      <p>Uma senhora atravessava com calma, segurando duas sacolas.</p>
+      <p>Um rapaz parou no meio da faixa para esperar uma criança alcançar a outra calçada.</p>
+      <p>Todos estavam indo para algum lugar.</p>
+      <p>Mas cada um no seu tempo.</p>
+      <p>Achei curioso como isso parece tão óbvio na rua e tão difícil de aceitar na vida.</p>
+      <p>Porque basta abrir uma rede social para começar a sensação de que todo mundo chegou antes.</p>
+      <p>Alguém comprou uma casa.</p>
+      <p>Outro mudou de emprego.</p>
+      <p>Alguém casou.</p>
+      <p>Outro abriu uma empresa.</p>
+      <p>Parece que existe uma corrida acontecendo o tempo inteiro!</p>
+      <p>E, sem perceber, a gente começa a usar a história dos outros como régua para medir a nossa.</p>
+      <p>Eu já caí nessa armadilha.</p>
+      <p>Já olhei para a vida de alguém e pensei que estava atrasado.</p>
+      <p>Depois descobri que eu nem queria o mesmo destino daquela pessoa.</p>
+      <p>Eu só estava comparando os relógios.</p>
+      <p>O problema é que relógio mede horas.</p>
+      <p>Não mede maturidade e muito menos processos.</p>
+      <p>Não mede tudo aquilo que acontece antes de uma conquista aparecer.</p>
+      <p>Cada pessoa tem uma história.</p>
+      <p>Tem perdas que ninguém viu.</p>
+      <p>Tem oportunidades diferentes... caminhos completamente diferentes.</p>
+      <p>Então por que a gente insiste em se comparar? De verdade, eu gostaria mesmo de entender isso.</p>
+      <p>Eu acho que, talvez, se comparar seja mais fácil do que confiar no próprio caminho.</p>
+      <p>Isso vale um preço.</p>
+      <p>A comparação é cruel. Ela faz a gente esquecer de olhar para o que já viveu.</p>
+      <p>Ela rouba a alegria das pequenas conquistas.</p>
+      <p>E faz parecer que nada nunca é suficiente.</p>
+      <p>Eu gosto de pensar que a vida não é uma prova de cem metros (porque, de fato, não é).</p>
+      <p>Ela parece mais como um... emaranhado de pontos de partida e chegada que de alguma forma harmônica se cruzam eventualmente.</p>
+      <p>Cada pessoa começa e termina em um ponto diferente.</p>
+      <p>Cada uma enfrenta obstáculos diferentes.</p>
+      <p>E nenhuma delas percorre exatamente o mesmo caminho. Nem mesmo irmãos gêmeos, criados do mesmo jeitinho, tem o mesmo destino.</p>
+      <p>Então talvez você não esteja demorando...</p>
+      <p class="beat">Talvez você apenas esteja vivendo a sua história.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Tente perceber quantas vezes você se compara com alguém ao decorrer do dia.</p>
+      <p>Sem se julgar (e com honestidade, viu?).</p>
+      <p>Sugiro também criar uma rotina de, toda noite, escrever quais foram suas pequenas conquistas do dia.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">13</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 11 -->
+  <article class="page" id="cap-11">
+    <p class="page-label">Parte III — Você não caminha sozinho · Capítulo 11</p>
+    <h2 class="chap-title">Quem caminha ao seu lado.</h2>
+    <p class="chap-epigraph">Tem gente que não é capaz de diminuir o caminho. Só fazer parecer mais leve.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Melhor é serem dois do que um, porque têm melhor recompensa pelo seu trabalho. Se um cair, o outro ajuda a levantar.”</p>
+      <cite>Eclesiastes 4:9-10</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Tem uma coisa que eu demorei para aprender.</p>
+      <p>Nem toda caminhada precisa ser feita sozinha.</p>
+      <p>Eu sei que, às vezes, parece mais fácil. A gente pensa que vai incomodar, que todo mundo já tem problemas demais ou que ninguém vai entender o que está acontecendo. Então guarda tudo. Vai empurrando. Vai dizendo que está tudo bem.</p>
+      <p>Eu já fiz isso.</p>
+      <p>E, para falar a verdade, durante muito tempo achei que pedir ajuda era um sinal de fraqueza.</p>
+      <p>E não era.</p>
+      <p>Era só orgulho disfarçado de independência.</p>
+      <p>Com o tempo fui percebendo que existem pessoas que não aparecem para resolver a nossa vida. Elas aparecem para caminhar um pedaço dela com a gente.</p>
+      <p>E isso é tão significativo.</p>
+      <p>Outro dia vi duas pessoas caminhando na rua. Não estavam conversando. Nem pareciam com pressa. Apenas seguiam lado a lado e pareciam tão... tranquilas.</p>
+      <p>Fiquei pensando que, talvez, uma delas nem lembrasse daquela caminhada alguns dias depois.</p>
+      <p>Mas a outra talvez lembrasse.</p>
+      <p>Porque existem dias em que a gente não precisa de uma solução.</p>
+      <p>Precisa só de uma companhia.</p>
+      <p>É curioso como a presença certa muda o peso das coisas.</p>
+      <p>O problema continua ali.</p>
+      <p>A notícia não mudou.</p>
+      <p>O boleto continua vencido.</p>
+      <p>Mas, por algum motivo, tudo parece um pouco mais suportável quando alguém senta ao nosso lado e permanece.</p>
+      <p>Sem tentar consertar.</p>
+      <p>Sem fazer um discurso.</p>
+      <p>Sem dizer que “vai dar tudo certo” ou “eu te avisei...”.</p>
+      <p>Só fica ali, presente.</p>
+      <p>Acho que a gente valoriza pouco esse tipo de gente.</p>
+      <p>Vivemos procurando pessoas brilhantes, engraçadas, inteligentes...</p>
+      <p>Mas, no fim das contas, as que deixam marca costumam ser as que ficam.</p>
+      <p>As que lembram de perguntar como você está.</p>
+      <p>As que aparecem sem precisar de um motivo.</p>
+      <p>As que respeitam o seu tempo.</p>
+      <p>As que conseguem dividir o silêncio sem criar constrangimento.</p>
+      <p>Talvez seja por isso que algumas amizades parecem casa.</p>
+      <p>Não porque acontecem coisas extraordinárias.</p>
+      <p>Mas porque, quando estamos com elas, a gente não precisa carregar tudo sozinho.</p>
+      <p>E também existe um outro lado dessa história.</p>
+      <p>Enquanto eu escrevia este capítulo, fiquei pensando que talvez alguém esteja lembrando de você agora.</p>
+      <p>Talvez você seja essa companhia para alguém e nem saiba.</p>
+      <p>Uma mensagem que chegou no momento certo.</p>
+      <p>Uma visita rápida.</p>
+      <p>Uma conversa no fim do expediente.</p>
+      <p>Um café compartilhado.</p>
+      <p>Às vezes, pequenos gestos ficam muito maiores na memória de quem precisava deles.</p>
+      <p>Então, se você tem alguém que caminha ao seu lado, cuide dessa pessoa.</p>
+      <p>E, se hoje você sente que está caminhando sem ninguém, não desista das pessoas.</p>
+      <p>Nem todo encontro acontece quando esperamos.</p>
+      <p>Alguns chegam exatamente quando a gente já tinha perdido a esperança de encontrar alguém.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pense em uma pessoa que fez um momento ficar mais leve.</p>
+      <p>Talvez ela saiba disso ou não... Vamos descobrir?</p>
+      <p>Escreva uma mensagem simples.</p>
+      <p>Pode ser apenas:</p>
+      <p class="prompt">“Lembrei de você hoje. Obrigado por estar sempre ao meu lado.”</p>
+      <p>Às vezes, algumas poucas palavras conseguem aquecer o dia de alguém.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">14</span>
+    </div>
+  </article>
+
+  <!-- CAPÍTULO 12 -->
+  <article class="page" id="cap-12">
+    <p class="page-label">Parte III — Você não caminha sozinho · Capítulo 12</p>
+    <h2 class="chap-title">Silêncio confortável.</h2>
+    <p class="chap-epigraph">Existem pessoas que fazem a gente se sentir em casa sem dizer quase nada.</p>
+
+    <hr class="hr" />
+
+    <blockquote class="verse">
+      <p>“Na tranquilidade e na confiança estaria a força de vocês.”</p>
+      <cite>Isaías 30:15</cite>
+    </blockquote>
+
+    <hr class="hr" />
+
+    <div class="stack">
+      <p>Você já reparou que existem dois tipos de silêncio?</p>
+      <p>Tem aquele que incomoda.</p>
+      <p>Quando ninguém sabe o que dizer, uma conversa termina de um jeito meio... esquisito. Ou como quando a gente fala algo porque sente que precisa preencher um vazio ali no ambiente.</p>
+      <p>E existe outro que eu particularmente adoro.</p>
+      <p>Um silêncio que descansa.</p>
+      <p>Espero que você já tenha vivido isso.</p>
+      <p>Estar ao lado de alguém sem precisar procurar assunto o tempo inteiro.</p>
+      <p>Cada um olhando pela janela durante uma viagem.</p>
+      <p>Tomando um café.</p>
+      <p>Andando na rua olhando as coisas.</p>
+      <p>Dividindo o mesmo sofá depois de um dia cheio.</p>
+      <p>Ninguém está tentando impressionar ninguém.</p>
+      <p>Ninguém sente a obrigação de fazer o momento acontecer.</p>
+      <p>Só a presença já basta.</p>
+      <p>Eu gosto desse tipo de silêncio.</p>
+      <p>Ele diz coisas que as palavras nem sempre conseguem dizer.</p>
+      <p class="beat">“você pode descansar.”</p>
+      <p class="beat">“você não precisa fingir que está tudo bem.”</p>
+      <p class="beat">“eu continuo aqui, tá?”</p>
+      <p>E talvez essa seja uma das formas mais bonitas de cuidado.</p>
+      <p>Porque, às vezes, a gente acha que amar alguém é encontrar as palavras certas.</p>
+      <p>Mas nem sempre existem palavras certas.</p>
+      <p>Quem já perdeu alguém sabe disso.</p>
+      <p>Quem já viu um amigo chorar sabe disso.</p>
+      <p>Quem já passou por um dia realmente difícil também sabe.</p>
+      <p>Existem momentos em que um abraço vale mais do que um conselho.</p>
+      <p>Uma companhia vale mais do que uma resposta.</p>
+      <p>Eu demorei para aprender isso.</p>
+      <p>Por muito tempo achei que precisava resolver os problemas das pessoas que eu amava.</p>
+      <p>Queria encontrar uma frase que aliviasse a dor, uma ideia que organizasse a bagunça ou uma resposta que devolvesse a esperança.</p>
+      <p>Quase nunca funcionava.</p>
+      <p>Sabe o que fazia diferença?</p>
+      <p class="beat">Ficar.</p>
+      <p>Muitas vezes, era só isso.</p>
+      <p>Ficar mais um pouco.</p>
+      <p>Ouvir mais do que falar.</p>
+      <p>Preparar um café.</p>
+      <p>Dar uma carona.</p>
+      <p>Sentar ao lado.</p>
+      <p>Esperar o tempo da outra pessoa.</p>
+      <p>Hoje eu penso que algumas das pessoas que mais me ajudaram fizeram exatamente isso.</p>
+      <p>Elas não tinham todas as respostas.</p>
+      <p>Nem tentavam ter.</p>
+      <p>Mas estavam presentes.</p>
+      <p>E presença tem um jeito curioso de aliviar pesos que ninguém consegue explicar.</p>
+      <p>Talvez você tenha alguém assim.</p>
+      <p>Se tiver, cuide dessa pessoa.</p>
+      <p>A vida é corrida demais para a gente esquecer de agradecer quem faz o caminho parecer mais leve.</p>
+      <p>E, se hoje você sente que não tem ninguém assim, comece sendo esse alguém para as pessoas (se sentir que vale a pena).</p>
+      <p>Busque ser esse alguém para você também.</p>
+    </div>
+
+    <hr class="hr" />
+
+    <aside class="practice">
+      <h3>Para hoje</h3>
+      <p>Pense em uma pessoa com quem você consegue simplesmente estar.</p>
+      <p>Sem esforço.</p>
+      <p>Sem precisar parecer mais forte ou mais interessante.</p>
+      <p>Se ela estiver por perto, mande uma mensagem.</p>
+      <p>Não precisa ser um texto longo.</p>
+      <p>Só diga que lembrou dela.</p>
+      <p>Às vezes, a presença começa com um simples “como você está?”.</p>
+    </aside>
+
+    <div class="page-foot">
+      <span class="page-num">15</span>
+    </div>
+  </article>
+
+  <script>
+    (function () {
+      const drops = document.querySelectorAll(".nav-drop");
+
+      drops.forEach((d) => {
+        d.addEventListener("toggle", () => {
+          if (!d.open) return;
+          drops.forEach((other) => {
+            if (other !== d) other.open = false;
+          });
+        });
+        d.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => { d.open = false; });
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        drops.forEach((d) => {
+          if (d.open && !d.contains(e.target)) d.open = false;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
