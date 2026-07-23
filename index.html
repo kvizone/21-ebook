@@ -43,6 +43,12 @@
       align-items: center;
       gap: 0.35rem 0.65rem;
       font-size: 12px;
+      transform: translateY(0);
+      transition: transform 0.28s ease;
+    }
+
+    .nav.is-hidden {
+      transform: translateY(-100%);
     }
 
     .nav a {
@@ -355,9 +361,9 @@
 </head>
 <body>
   <nav class="nav" aria-label="Navegação do ebook">
-    <span class="mark">CONTINUE.</span>
+    <span class="mark">RUN!</span>
     <div class="nav-links">
-      <a href="#capa">Capa</a>
+      <a href="#capa">Início</a>
       <a href="#prefacio">Prefácio</a>
       <a href="#sumario">Sumário</a>
 
@@ -528,7 +534,7 @@
     <hr class="divider" />
 
     <div class="toc-part">
-      <h3>Parte III — Você não caminha sozinho</h3>
+      <h3>Parte III — Você não caminha só</h3>
       <ol>
         <li><span class="n">11</span> <a href="#cap-11">Quem caminha ao seu lado.</a></li>
         <li><span class="n">12</span> <a href="#cap-12">Silêncio confortável.</a></li>
@@ -1334,7 +1340,7 @@
 
   <!-- CAPÍTULO 11 -->
   <article class="page" id="cap-11">
-    <p class="page-label">Parte III — Você não caminha sozinho · Capítulo 11</p>
+    <p class="page-label">Parte III — Você não caminha só · Capítulo 11</p>
     <h2 class="chap-title">Quem caminha ao seu lado.</h2>
     <p class="chap-epigraph">Tem gente que não é capaz de diminuir o caminho. Só fazer parecer mais leve.</p>
 
@@ -1414,7 +1420,7 @@
 
   <!-- CAPÍTULO 12 -->
   <article class="page" id="cap-12">
-    <p class="page-label">Parte III — Você não caminha sozinho · Capítulo 12</p>
+    <p class="page-label">Parte III — Você não caminha só · Capítulo 12</p>
     <h2 class="chap-title">Silêncio confortável.</h2>
     <p class="chap-epigraph">Existem pessoas que fazem a gente se sentir em casa sem dizer quase nada.</p>
 
@@ -1501,6 +1507,7 @@
   <script>
     (function () {
       const drops = document.querySelectorAll(".nav-drop");
+      const nav = document.querySelector(".nav");
 
       drops.forEach((d) => {
         d.addEventListener("toggle", () => {
@@ -1519,6 +1526,20 @@
           if (d.open && !d.contains(e.target)) d.open = false;
         });
       });
+
+      let lastY = window.scrollY;
+      window.addEventListener("scroll", () => {
+        const y = window.scrollY;
+        if (y < 40) {
+          nav.classList.remove("is-hidden");
+        } else if (y > lastY + 4) {
+          nav.classList.add("is-hidden");
+          drops.forEach((d) => { d.open = false; });
+        } else if (y < lastY - 4) {
+          nav.classList.remove("is-hidden");
+        }
+        lastY = y;
+      }, { passive: true });
     })();
   </script>
 </body>
